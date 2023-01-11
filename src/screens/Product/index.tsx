@@ -1,11 +1,10 @@
-// Native Libraries
-import React, { useEffect } from 'react';
-import { Text, TouchableNativeFeedback } from 'react-native';
+import React, { useEffect, useMemo } from 'react';
+import { Image, Text, TouchableNativeFeedback } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 // Global Styles
-import { generalStyles } from '@utilities/styles';
+import { colors, generalStyles } from '@utilities/styles';
 
 // Icons
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -22,6 +21,36 @@ import { RootStackParamList } from 'App';
 type Props = NativeStackScreenProps<RootStackParamList, 'Product'>;
 
 const ProductScreen =  ({ navigation, route }: Props) => {
+
+    const { data } = route.params;
+    
+    if(!data) return null;
+
+    const date = useMemo(() => {
+        const date = new Date(data.createdAt);
+        const day = date.getDate();
+        const monthName = [
+            'enero',
+            'febrero',
+            'marzo',
+            'abril',
+            'mayo',
+            'junio',
+            'julio',
+            'agosto',
+            'septiembre',
+            'octubre',
+            'noviembre',
+            'diciembre'
+        ];
+        return `Comprado el ${day} de ${monthName[date.getMonth()]}`;
+    }, [data.createdAt]);
+
+    const labelSell = useMemo(() => data.is_redemption ? `Con esta compra gastaste:` : `Con esta compra acumulaste:`, [data.is_redemption]);
+
+    const icon = useMemo(() => (
+        <Icon name={data.is_redemption ? 'minus' : 'plus'} size={10} color={data.is_redemption ? colors.red : colors.green} />
+    ), [data.points, data.is_redemption]);
 
     useEffect(() => {
     }, []);
@@ -47,14 +76,30 @@ const ProductScreen =  ({ navigation, route }: Props) => {
                         </View>
                             
                         {/* Title */}
-                        <Text style={[ styles.title ]}>Nombre de producto</Text>
+                        <Text style={[ styles.title ]}>{data.product}</Text>
 
                     </View>
 
                     {/* Content */}
                     <View style={[ styles.content ]}>
 
-                        <View style={{ marginTop: 40, paddingHorizontal: 20 }} >
+                        {/* Info */}
+                        <View style={[ styles.card ]}>
+                            <View style={[ styles.imageContainer ]}>
+                                <Image source={{ uri: data.image }} style={[ styles.image ]} />
+                            </View>
+                        </View>
+
+                        <View style={[ styles.infoContainer ]}>
+                            <Text style={[ styles.label ]}>Detalles de producto:</Text>
+                            <Text style={[ styles.text ]}>{date}</Text>
+                            <Text style={[ styles.label ]}>{labelSell}</Text>
+                            <View style={{flexDirection:'row', alignItems: 'center'}}>
+                                {icon}<Text style={[ styles.textPoints ]}>{data.points} puntos</Text>
+                            </View>
+                        </View>
+
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20 }} >
                             <Button visible={true} text='Aceptar' onPress={goBack}/>
                         </View>
 
@@ -89,9 +134,10 @@ const styles = StyleSheet.create({
 
     // Title
     title: {
-        fontSize: 25,
-        fontWeight: '400',
-        marginLeft: 20
+        fontSize: 24,
+        fontWeight: '800',
+        marginLeft: 20,
+        color: colors.black
     },
 
     containerIcon: {
@@ -99,6 +145,59 @@ const styles = StyleSheet.create({
         width: 40,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+
+    card: {
+        flex: 5,
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        marginRight: 20,
+        marginLeft: 20,
+        marginTop: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 1, height: 1 },
+        shadowOpacity:  0.4,
+        shadowRadius: 1,
+        elevation: 5
+    },
+
+    imageContainer: {
+        flex: 3,
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    infoContainer: {
+        flex: 5,
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+        alignItems: 'flex-start',
+        justifyContent: 'space-evenly',
+    },
+
+    image: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 10
+    },
+    
+    label: {
+        fontSize: 14,
+        color: colors.gray,
+        fontWeight: '800'
+    },
+
+    text: {
+        fontSize: 16,
+        fontWeight: '800'
+    },
+
+    textPoints: {
+        fontSize: 24,
+        fontWeight: '800',
+        marginLeft: 10,
     }
 });
 

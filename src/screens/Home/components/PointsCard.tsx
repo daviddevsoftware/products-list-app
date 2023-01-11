@@ -35,7 +35,7 @@ const PointsCard = ({products}: ComponentProps) => {
     }, [products]);
 
     return (
-        <View style={{ flex: 1, flexDirection: 'column', paddingBottom: 10 }}>
+        <View style={{ flex: 1, flexDirection: 'column', paddingBottom: 20 }}>
             <Text style={styles.title}>Tus Puntos</Text>
             <View style={styles.container}>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

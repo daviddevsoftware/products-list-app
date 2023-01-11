@@ -2,11 +2,12 @@ import { StyleSheet } from "react-native";
 
 // * Colors *
 const white = '#FFF';
-const green = '#00c466';
+const green = '#00B833';
 const blue = '#334FFA';
 const gray = '#9B9898';
 const grayLabel = '#cdcdcd';
 const black = '#000';
+const red = '#FF0000';
 
 export const colors = {
     background: white,
@@ -16,6 +17,7 @@ export const colors = {
     gray: gray,
     grayLabel: grayLabel,
     black: black,
+    red: red,
 };
 
 // * Styles *

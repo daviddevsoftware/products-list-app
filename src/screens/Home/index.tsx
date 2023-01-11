@@ -77,16 +77,6 @@ const HomeScreen = ({ navigation }: Props) => {
         setShowFilter(false);
     }
 
-   const goToProductDetail = (data: ProductData) => {
-        const navigateAction = CommonActions.navigate({
-            name: 'Product',
-            params: {
-                
-            }
-        });
-        navigation.dispatch(navigateAction);
-    }
-
     return (
         <View style={[generalStyles.screen]}>
             <SafeAreaView style={[ styles.container ]}>
@@ -111,7 +101,7 @@ const HomeScreen = ({ navigation }: Props) => {
                         
                         {/* Sections of Products */}   
                         <View style={{flex: 5}}>
-                            <ProductList products={products}/>
+                            <ProductList navigation={navigation} products={products}/>
                         </View>       
                         
 
@@ -136,17 +126,10 @@ const styles = StyleSheet.create({
     header: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: '#fff',
-        shadowColor: '#000',
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity:  0.4,
-        shadowRadius: 1,
-        elevation: 5,
     },
     content: {
         flex: 7,
         paddingHorizontal: 20,
-        paddingTop: 20
     },
     actionsContainer: { 
         flex: 1, 
@@ -160,7 +143,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'flex-start',
-        paddingLeft: 30,
+        paddingLeft: 20,
     },
     title: {
         fontSize: 20,

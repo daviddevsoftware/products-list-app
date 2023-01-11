@@ -8,13 +8,26 @@ import ProductCard from './ProductCard';
 // Store
 import { ProductData } from '@actions/Product';
 import { colors } from '@utilities/styles';
+import { CommonActions } from '@react-navigation/native';
 
 // Props
 interface ComponentProps {
     products: ProductData[];
+    navigation: any
 }
 
-const ProductList = ({products}: ComponentProps) => {
+const ProductList = ({products, navigation}: ComponentProps) => {
+
+    const goToProductDetail = (data: ProductData) => {
+        const navigateAction = CommonActions.navigate({
+            name: 'Product',
+            params: {
+                data: data
+            }
+        });
+        navigation.dispatch(navigateAction);
+    }
+    
     return (
         <View style={{ flex: 1, paddingBottom: 20 }}>
             <Text style={styles.title}>Tus Movimientos</Text>
@@ -23,7 +36,7 @@ const ProductList = ({products}: ComponentProps) => {
                     <FlatList
                         data={products}
                         renderItem={({ item }) => (
-                            <ProductCard product={item} />
+                            <ProductCard onPress={(item) => {goToProductDetail(item)}} product={item} />
                         )}
                         keyExtractor={(item) => item.id}
                     />
