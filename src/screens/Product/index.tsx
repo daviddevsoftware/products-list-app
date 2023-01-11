@@ -55,7 +55,7 @@ const ProductScreen =  ({ navigation, route }: Props) => {
                     <View style={[ styles.content ]}>
 
                         <View style={{ marginTop: 40, paddingHorizontal: 20 }} >
-                            <Button text='Aceptar' onPress={goBack}/>
+                            <Button visible={true} text='Aceptar' onPress={goBack}/>
                         </View>
 
                     </View>

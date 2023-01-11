@@ -116,17 +116,11 @@ const HomeScreen = ({ navigation }: Props) => {
                         
 
                         {/* Buttons */}
-                        {
-                            showFilter ?
-                            <View style={{flex: 1}}>
-                                <Button text='Aceptar' onPress={() => handleHideFilter()}/>
-                            </View>
-                            : 
-                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                                <Button style={{ marginRight: 5 }} text='Ganados' onPress={() => handleSetFilter(true)}/>
-                                <Button style={{ marginLeft: 5 }} text='Canjeados' onPress={() => handleSetFilter(false)}/>
-                            </View>
-                        }
+                        <View style={styles.buttonContainer}>
+                            <Button visible={showFilter} text='Aceptar' onPress={() => handleHideFilter()}/>
+                            <Button visible={!showFilter} style={{ marginRight: 5 }} text='Ganados' onPress={() => handleSetFilter(true)}/>
+                            <Button visible={!showFilter} style={{ marginLeft: 5 }} text='Canjeados' onPress={() => handleSetFilter(false)}/>
+                        </View>
 
                     </View>
                 </View>
@@ -185,6 +179,11 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         paddingHorizontal: 30,
+    },
+    buttonContainer: { 
+        flex: 1, 
+        flexDirection: 'row', 
+        alignItems: 'center' 
     },
 });
 
