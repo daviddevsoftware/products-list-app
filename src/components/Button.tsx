@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         borderRadius: 10, 
-        backgroundColor: colors.green, 
+        backgroundColor: colors.blue, 
         maxHeight: 50,
         minHeight: 50,
         alignItems: 'center',
@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     },
     // Title
     title: {
-        fontSize: 17,
-        fontWeight: '400',
+        fontSize: 12,
+        fontWeight: '800',
         color: 'white'
     },
 });
