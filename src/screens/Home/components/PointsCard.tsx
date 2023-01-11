@@ -1,49 +1,69 @@
 // Libraries
 import React from 'react';
-import { FlatList, View, Text, StyleSheet } from 'react-native';
-
-// Components
-import ProductCard from './ProductCard';
+import { View, Text, StyleSheet } from 'react-native';
 
 // Store
 import { ProductData } from '@actions/Product';
 import { colors } from '@utilities/styles';
+import { useMemo } from 'react';
 
 // Props
 interface ComponentProps {
     products: ProductData[];
 }
 
-const ProductList = ({products}: ComponentProps) => {
+const CurrentMonth = () => {
+    const currentDate = new Date();
+    const month = currentDate.toLocaleString('default', { month: 'long' });
+    return <Text style={styles.date}>{month}</Text>;
+};
+
+const PointsCard = ({products}: ComponentProps) => {
+
+    // Summary of the points
+    const total = useMemo(() => {
+        let numbers = products.map((item) => item.is_redemption ? -item.points : item.points);
+        let sum = numbers.reduce(function (a, b) {
+            return a + b;
+        }, 0);
+        let parsedSum = sum.toLocaleString('en-US', {
+            style: 'decimal',
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+        }) + ' pts'
+        return parsedSum;
+    }, [products]);
+
     return (
-        <View style={{ flex: 1, paddingBottom: 20 }}>
-            <Text style={styles.title}>Tus Movimientos</Text>
-            <View style={[styles.container]}>
-                { products.length > 0 ?
-                    <FlatList
-                        data={products}
-                        renderItem={({ item }) => (
-                            <ProductCard product={item} />
-                        )}
-                        keyExtractor={(item) => item.id}
-                    />
-                : 
-                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={styles.title}>Loading...</Text>
-                    </View>
-                }
+        <View style={{ flex: 1, flexDirection: 'column', paddingBottom: 10 }}>
+            <Text style={styles.title}>Tus Puntos</Text>
+            <View style={styles.container}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    {/* Month */}
+                    <CurrentMonth/>
+
+                    {/* Points */}
+                    <Text style={styles.points}>{total}</Text>
+                </View>
             </View>
         </View>
-        
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    cardContainer: {
         flex: 1,
+    },
+    container: {
         borderRadius: 10,
-        backgroundColor: colors.white,
-        padding: 20,
+        backgroundColor: colors.blue,
+        flex: 1,
+        marginHorizontal: 30,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 2,
     },
     title: {
         fontSize: 14,
@@ -51,11 +71,23 @@ const styles = StyleSheet.create({
         color: colors.gray,
         marginBottom: 20 
     },
-    image: {
-        width: 60,
-        height: 60,
-        borderRadius: 8,
-    }
+    points: {
+        fontSize: 20,
+        fontWeight: '800',
+        color: colors.white,
+        position: 'absolute',
+        alignSelf: 'center',
+        justifyContent: 'center'
+    },
+    date: {
+        fontSize: 15,
+        fontWeight: '800',
+        color: colors.white,
+        position: 'absolute',
+        left: 15,
+        top: 10,
+        justifyContent: 'center'
+    },
 });
 
-export default ProductList;
+export default PointsCard;

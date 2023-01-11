@@ -25,6 +25,7 @@ import { useFetchProducts } from '@hooks/useFetchProducts';
 import ProductList from './components/ProductList';
 import { useSelector } from 'react-redux';
 import { RootState } from '@src/store';
+import PointsCard from './components/PointsCard';
 
 // Interfaces
 interface SectionTasks {
@@ -100,19 +101,28 @@ const HomeScreen = ({ navigation }: Props) => {
                     </View>
 
                     {/* Content */}
-                    <View style={[ styles.content ]}>
+                    <View style={[styles.content]}>
                         
-                        {/* Sections of products */}          
-                        <ProductList products={products}/>
+                        {/* Sections of Points */} 
+                        <View style={{flex: 2}}>
+                            <PointsCard products={products}/>
+                        </View>         
+                        
+                        
+                        {/* Sections of Products */}   
+                        <View style={{flex: 5}}>
+                            <ProductList products={products}/>
+                        </View>       
+                        
 
                         {/* Buttons */}
                         {
                             showFilter ?
-                            <View>
+                            <View style={{flex: 1}}>
                                 <Button text='Aceptar' onPress={() => handleHideFilter()}/>
                             </View>
                             : 
-                            <View style={{ flexDirection: 'row' }}>
+                            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                                 <Button style={{ marginRight: 5 }} text='Ganados' onPress={() => handleSetFilter(true)}/>
                                 <Button style={{ marginLeft: 5 }} text='Canjeados' onPress={() => handleSetFilter(false)}/>
                             </View>
@@ -140,9 +150,9 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     content: {
-        flex: 6,
-        paddingHorizontal: 30,
-        paddingVertical: 30
+        flex: 7,
+        paddingHorizontal: 20,
+        paddingTop: 20
     },
     actionsContainer: { 
         flex: 1, 

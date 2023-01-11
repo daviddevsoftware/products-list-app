@@ -6,6 +6,7 @@ const green = '#00c466';
 const blue = '#334FFA';
 const gray = '#9B9898';
 const grayLabel = '#cdcdcd';
+const black = '#000';
 
 export const colors = {
     background: white,
@@ -14,6 +15,7 @@ export const colors = {
     blue: blue,
     gray: gray,
     grayLabel: grayLabel,
+    black: black,
 };
 
 // * Styles *
