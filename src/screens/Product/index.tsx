@@ -1,5 +1,5 @@
 // Native Libraries
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Text, TouchableNativeFeedback } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -18,19 +18,13 @@ import { CommonActions } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'App';
 
-export interface ProductData {
-    id: string,
-    createdAt: string,
-    product: string,
-    points: number, 
-    image: string,
-    is_redemption : boolean,
-}
-
 // ScreenProps
 type Props = NativeStackScreenProps<RootStackParamList, 'Product'>;
 
 const ProductScreen =  ({ navigation, route }: Props) => {
+
+    useEffect(() => {
+    }, []);
 
     const goBack = () => {
         navigation.dispatch(CommonActions.goBack());

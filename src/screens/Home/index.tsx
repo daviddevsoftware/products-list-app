@@ -11,14 +11,20 @@ import { generalStyles } from '@utilities/styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // Components
-import TaskItem from './components/TaskItem';
+import TaskItem from './components/ProductCard';
 import Button from '@components/Button';
-import { ProductData } from '@screens/Product';
+import { ProductData } from '@src/actions/Product';
 
 // Navigation
 import { CommonActions } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'App';
+
+// Hooks
+import { useFetchProducts } from '@hooks/useFetchProducts';
+import ProductList from './components/ProductList';
+import { useSelector } from 'react-redux';
+import { RootState } from '@src/store';
 
 // Interfaces
 interface SectionTasks {
@@ -35,6 +41,12 @@ const HomeScreen = ({ navigation }: Props) => {
     const [showFilter, setShowFilter] = useState<boolean>(false);
     const [filter, setFilter] = useState<boolean>(false);
 
+    // Products charge
+    useFetchProducts();
+
+    // Store
+    const { products, loading, error } = useSelector((state: RootState) => state.product);
+
     const data: SectionTasks[] = [
         {
             title: 'Completed tasks',
@@ -48,11 +60,11 @@ const HomeScreen = ({ navigation }: Props) => {
 
         
     useEffect(() => {
-        getProducts();
-    }, [])
+        console.log(loading);
+    }, [loading])
 
     const getProducts = () => {
-        
+        useFetchProducts
     }
 
     const handleSetFilter = (filter: boolean) => {
@@ -90,7 +102,8 @@ const HomeScreen = ({ navigation }: Props) => {
                     {/* Content */}
                     <View style={[ styles.content ]}>
                         
-                        {/* Sections of products */}                     
+                        {/* Sections of products */}          
+                        <ProductList products={products}/>
 
                         {/* Buttons */}
                         {
