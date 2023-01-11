@@ -10,29 +10,47 @@ import { useMemo } from 'react';
 // Props
 interface ComponentProps {
     products: ProductData[];
+    filterActive: boolean;
+    is_redemption: boolean;
 }
 
 const CurrentMonth = () => {
     const currentDate = new Date();
-    const month = currentDate.toLocaleString('default', { month: 'long' });
-    return <Text style={styles.date}>{month}</Text>;
+    const month = currentDate.toLocaleString('es-ES', { month: 'long' });
+    return <Text style={styles.date}>{month.replace(/^\w/, c => c.toUpperCase())}</Text>;
 };
 
-const PointsCard = ({products}: ComponentProps) => {
+const PointsCard = ({products, filterActive, is_redemption}: ComponentProps) => {
 
     // Summary of the points
     const total = useMemo(() => {
+        // Get array of numbers
         let numbers = products.map((item) => item.is_redemption ? -item.points : item.points);
-        let sum = numbers.reduce(function (a, b) {
-            return a + b;
-        }, 0);
+
+        // Sum of the array
+        let sumPositive = 0;
+        let sumNegative = 0;
+        numbers.forEach(function(number) {
+            if (number >= 0) {
+                sumPositive += number;
+            } else {
+                sumNegative += number;
+            }
+        });
+        let sum = sumPositive + sumNegative;
+        if(filterActive) {
+            sum = is_redemption ? Math.abs(sumNegative) : sumPositive;
+        } 
+
+        // Parse to formatted string
         let parsedSum = sum.toLocaleString('en-US', {
             style: 'decimal',
             maximumFractionDigits: 2,
             minimumFractionDigits: 2
         }) + ' pts'
+
         return parsedSum;
-    }, [products]);
+    }, [products, filterActive, is_redemption]);
 
     return (
         <View style={{ flex: 1, flexDirection: 'column', paddingBottom: 20 }}>

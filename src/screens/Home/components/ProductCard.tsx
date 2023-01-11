@@ -14,12 +14,15 @@ import { colors } from '@src/utilities/styles';
 // Props
 interface ComponentProps { 
     product: ProductData,
-    onPress: (item: ProductData) => void ,
+    onPress: (item: ProductData) => void,
+    filtered: (item: ProductData) => boolean,
 };
 
 import * as Animatable from 'react-native-animatable';
 
-const ProductCard = ({ product, onPress }: ComponentProps) => {
+const ProductCard = ({ product, onPress, filtered }: ComponentProps) => {
+
+    if(filtered(product)) return null;
 
     // Parsed date to new format
     const date = useMemo(() => (new Date(product.createdAt)).toLocaleDateString('es-ES', {

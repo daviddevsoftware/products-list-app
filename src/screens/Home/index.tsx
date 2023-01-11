@@ -48,26 +48,6 @@ const HomeScreen = ({ navigation }: Props) => {
     // Store
     const { products, loading, error } = useSelector((state: RootState) => state.product);
 
-    const data: SectionTasks[] = [
-        {
-            title: 'Completed tasks',
-            data: [],
-        },
-        {
-            title: 'Pending tasks',
-            data: [],
-        },
-    ];
-
-        
-    useEffect(() => {
-        console.log(loading);
-    }, [loading])
-
-    const getProducts = () => {
-        useFetchProducts
-    }
-
     const handleSetFilter = (filter: boolean) => {
         setShowFilter(true);
         setFilter(filter);
@@ -95,15 +75,14 @@ const HomeScreen = ({ navigation }: Props) => {
                         
                         {/* Sections of Points */} 
                         <View style={{flex: 2}}>
-                            <PointsCard products={products}/>
+                            <PointsCard filterActive={showFilter} is_redemption={filter} products={products}/>
                         </View>         
                         
                         
                         {/* Sections of Products */}   
                         <View style={{flex: 5}}>
-                            <ProductList navigation={navigation} products={products}/>
-                        </View>       
-                        
+                            <ProductList filterActive={showFilter} is_redemption={filter} navigation={navigation} products={products}/>
+                        </View>
 
                         {/* Buttons */}
                         <View style={styles.buttonContainer}>

@@ -9,14 +9,17 @@ import ProductCard from './ProductCard';
 import { ProductData } from '@actions/Product';
 import { colors } from '@utilities/styles';
 import { CommonActions } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 // Props
 interface ComponentProps {
     products: ProductData[];
-    navigation: any
+    navigation: any,
+    filterActive: boolean,
+    is_redemption: boolean,
 }
 
-const ProductList = ({products, navigation}: ComponentProps) => {
+const ProductList = ({products, navigation, is_redemption, filterActive}: ComponentProps) => {
 
     const goToProductDetail = (data: ProductData) => {
         const navigateAction = CommonActions.navigate({
@@ -27,6 +30,10 @@ const ProductList = ({products, navigation}: ComponentProps) => {
         });
         navigation.dispatch(navigateAction);
     }
+
+    const handleFilter = useCallback((item: ProductData) => {
+        return filterActive && is_redemption == item.is_redemption;
+    }, [filterActive, is_redemption])
     
     return (
         <View style={{ flex: 1, paddingBottom: 20 }}>
@@ -36,7 +43,7 @@ const ProductList = ({products, navigation}: ComponentProps) => {
                     <FlatList
                         data={products}
                         renderItem={({ item }) => (
-                            <ProductCard onPress={(item) => {goToProductDetail(item)}} product={item} />
+                            <ProductCard filtered={handleFilter} onPress={(item) => {goToProductDetail(item)}} product={item} />
                         )}
                         keyExtractor={(item) => item.id}
                     />
